@@ -63,10 +63,15 @@ int main() {
     // draw_circle(render, {WINDOW_W / 2, WINDOW_H / 2}, 90);
     SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
 
+    for (auto t = draw_list.begin(); t != draw_list.end();) {
+      if ((*t)->kill_this == true) {
+        t = draw_list.erase(t);
+      } else {
+        t++;
+      }
+    }
+
     for (drawable *d : draw_list) {
-      if (d->kill_this == true) {
-        // d = draw_list.erase(d); ??
-      };
       d->update();
       d->draw();
     };
