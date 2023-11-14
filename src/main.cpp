@@ -35,6 +35,7 @@ int main() {
 
   std::vector<drawable *> draw_list;
   draw_list.push_back(m1);
+  draw_list.push_back(b1);
 
   while (!exit) {
     SDL_GetMouseState(currentMouseX, currentMouseY);
