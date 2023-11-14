@@ -27,15 +27,15 @@ int main() {
 
   //Point mouse_pos{(double)*currentMouseX, (double)*currentMouseY};
 
-  balloon *b1 = new balloon;
-  b1->set(render, {600, 500}, {0, -3}, {});
+  balloon b1;
+  b1.set(render, {600, 500}, {0, -3}, {});
   // fazer um negocio q gera missels qnd clica
-  missile *m1 = new missile;
-  m1->set(render, {800, 500}, {}, {}, 10, 0.2, b1->position);
+  missile m1;
+  m1.set(render, {800, 500}, {}, {}, 10, 0.2, b1.position);
 
   std::vector<drawable *> draw_list;
-  draw_list.push_back(m1);
-  draw_list.push_back(b1);
+  draw_list.push_back(&m1);
+  draw_list.push_back(&b1);
 
   while (!exit) {
     SDL_GetMouseState(currentMouseX, currentMouseY);
