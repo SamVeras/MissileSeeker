@@ -7,6 +7,7 @@ class drawable {
 public:
   SDL_Renderer *renderer;
   Point position{};
+  bool kill_this{false};
 
   virtual void update();
   virtual void draw();

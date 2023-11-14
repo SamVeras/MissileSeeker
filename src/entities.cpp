@@ -56,14 +56,14 @@ void missile::update() {
 };
 
 void missile::draw() {
-  double head_x = position.x + velocity.x * 2;
-  double head_y = position.y + velocity.y * 2;
+  double head_x = position.x + velocity.x * 6;
+  double head_y = position.y + velocity.y * 6;
   SDL_RenderDrawLine(this->renderer, position.x, position.y, head_x, head_y);
 };
 
 void missile::explode() {
   draw_circle(this->renderer, this->position, 60);
-  delete this;
+  this->kill_this = true;
 }
 
 /* -------------------------------------------------------------------------- */

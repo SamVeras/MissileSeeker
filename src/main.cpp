@@ -25,13 +25,13 @@ int main() {
   /* ---------------------------- declarations ---------------------------- */
   bool exit = false;
 
-  Point mouse_pos{(double)*currentMouseX, (double)*currentMouseY};
+  //Point mouse_pos{(double)*currentMouseX, (double)*currentMouseY};
 
   balloon *b1 = new balloon;
   b1->set(render, {600, 500}, {0, -3}, {});
 
   missile *m1 = new missile;
-  m1->set(render, {100, 100}, {}, {}, 6, 0.1, mouse_pos);
+  m1->set(render, {100, 100}, {}, {}, 10, 0.2, b1->position);
 
   std::vector<drawable *> draw_list;
   draw_list.push_back(m1);
@@ -39,8 +39,8 @@ int main() {
 
   while (!exit) {
     SDL_GetMouseState(currentMouseX, currentMouseY);
-    mouse_pos.x = (double)*currentMouseX;
-    mouse_pos.y = (double)*currentMouseY;
+    //mouse_pos.x = (double)*currentMouseX;
+    //mouse_pos.y = (double)*currentMouseY;
     /* --------------------------- event polling -------------------------- */
 
     while (SDL_PollEvent(&event)) {
@@ -63,7 +63,10 @@ int main() {
     // draw_circle(render, {WINDOW_W / 2, WINDOW_H / 2}, 90);
     SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
 
-    for (auto &d : draw_list) {
+    for (drawable *d : draw_list) {
+      if (d->kill_this == true) {
+        // d = draw_list.erase(d); ??
+      };
       d->update();
       d->draw();
     };
