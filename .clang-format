@@ -1,0 +1,12 @@
+BasedOnStyle: Chromium
+ReflowComments: false
+IndentWidth: 2
+UseTab: Never
+SpacesBeforeTrailingComments: 2
+TabWidth: 2
+ColumnLimit: 80
+AllowShortFunctionsOnASingleLine: None
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2
+AlignAfterOpenBracket: Align

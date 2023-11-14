@@ -1,0 +1,5 @@
+.*
+!.gitignore
+!.clang-format
+*.out
+*.o
