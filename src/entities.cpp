@@ -7,7 +7,8 @@
 /* ----------------------------------------------------------------------- */
 void movable::update() {
   this->velocity += this->acceleration;
-  this->position += velocity;
+  this->position += this->velocity;
+  this->acceleration = {0.0, 0.0};
 };
 
 void movable::draw(SDL_Renderer* renderer) {
@@ -21,21 +22,27 @@ void movable::draw(SDL_Renderer* renderer) {
 void missile::track(const Point& target_position) {
   Point desired_velocity{target_position - this->position};
   desired_velocity.set_magnitude(this->max_speed);
-  Point steer{desired_velocity - this->velocity};
-  this->acceleration += steer;
+  desired_velocity -= this->velocity;
+  this->acceleration += desired_velocity;
 };
 
+// void missile::update() {
+//   this->velocity.set_magnitude(this->max_speed);
+//   this->velocity += this->acceleration;
+//   this->position += this->velocity;
+// };
+
 void missile::draw(SDL_Renderer* renderer) {
-  double head_x = position.x + velocity.x * 5;
-  double head_y = position.y + velocity.y * 5;
-  SDL_RenderDrawLine(renderer, position.x, position.y, head_x, head_y);
+  // double head_x = position.x + velocity.x * 5;
+  // double head_y = position.y + velocity.y * 5;
+  // SDL_RenderDrawLine(renderer, position.x, position.y, head_x, head_y);
 
-  // int x = this->position.x;
-  // int y = this->position.y;
-  // int s = 10;
-  // SDL_Rect m_rect = {x - s / 2, y - s / 2, s, s};
+  int x = this->position.x;
+  int y = this->position.y;
+  int s = 10;
+  SDL_Rect m_rect = {x - s / 2, y - s / 2, s, s};
 
-  // SDL_RenderDrawRect(renderer, &m_rect);
+  SDL_RenderDrawRect(renderer, &m_rect);
 };
 
 /* -------------------------------------------------------------------------- */

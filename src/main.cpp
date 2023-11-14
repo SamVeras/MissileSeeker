@@ -5,6 +5,8 @@
 
 #define WINDOW_W 800
 #define WINDOW_H 600
+int* currentMouseX = new int;
+int* currentMouseY = new int;
 
 int main() {
   using std::cout, std::endl, std::cerr;
@@ -19,10 +21,12 @@ int main() {
   /* ---------------------------- declarations ---------------------------- */
   bool exit = false;
   balloon b1{{{600, 500}, {0, -3}}, 30};
-  missile m1{{{200, 200}, {1, 0}, {0, 0}}, 4};
+  missile m1{{{200, 200}, {0, 0}, {0, 0}}, 4};
 
   while (!exit) {
     /* --------------------------- event polling -------------------------- */
+    SDL_GetMouseState(currentMouseX, currentMouseY);
+
     while (SDL_PollEvent(&event)) {
       switch (event.type) {
         case SDL_QUIT: {
@@ -42,13 +46,13 @@ int main() {
     SDL_RenderClear(render);
 
     SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
-    m1.track(b1.position);
+    m1.track({(double)*currentMouseX, (double)*currentMouseY});
     m1.update();
     m1.draw(render);
     b1.update();
     b1.draw(render);
     SDL_RenderPresent(render);
-    SDL_Delay(30);
+    SDL_Delay(50);
   }
 
   /* ---------------------------- end sequence ---------------------------- */

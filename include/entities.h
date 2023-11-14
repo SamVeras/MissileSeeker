@@ -18,6 +18,7 @@ class missile : public movable {
   double max_speed{};
 
   void track(const Point& target_position);
+  // void update();
   void draw(SDL_Renderer* renderer);
 };
 
