@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+
 #include "structures.h"
 
 class movable {
@@ -8,23 +9,33 @@ class movable {
   Point position{};
   Point velocity{};
   Point acceleration{};
+  SDL_Renderer* renderer;
 
   void update();
-  void draw(SDL_Renderer* renderer);
+  void draw();
 };
 
 class missile : public movable {
  public:
   double max_speed{};
+  double max_force{};
+  Point* target_position;
 
-  void track(const Point& target_position);
-  // void update();
-  void draw(SDL_Renderer* renderer);
+  void track();
+  void update();
+  void draw();
+  void explode();
 };
 
 class balloon : public movable {
  public:
   int size{1};
 
-  void draw(SDL_Renderer* renderer);
+  void draw();
 };
+
+// class circle {
+//  public:
+//   double radius;
+//   void ;
+// };

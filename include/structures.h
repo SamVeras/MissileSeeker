@@ -15,4 +15,5 @@ struct Point {
 
   double get_magnitude();
   void set_magnitude(double mag);
+  void limit(double limit);
 };

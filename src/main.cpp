@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <iostream>
+
 #include "entities.h"
 #include "structures.h"
 
@@ -20,8 +21,8 @@ int main() {
 
   /* ---------------------------- declarations ---------------------------- */
   bool exit = false;
-  balloon b1{{{600, 500}, {0, -3}}, 30};
-  missile m1{{{200, 200}, {0, 0}, {0, 0}}, 4};
+  balloon b1{{{600, 500}, {0, -3}, {0, 0}, render}, 30};
+  missile m1{{{100, 100}, {0, 0}, {0, 0}, render}, 6, 3, &b1.position};
 
   while (!exit) {
     /* --------------------------- event polling -------------------------- */
@@ -46,13 +47,12 @@ int main() {
     SDL_RenderClear(render);
 
     SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
-    m1.track({(double)*currentMouseX, (double)*currentMouseY});
     m1.update();
-    m1.draw(render);
+    m1.draw();
     b1.update();
-    b1.draw(render);
+    b1.draw();
     SDL_RenderPresent(render);
-    SDL_Delay(50);
+    SDL_Delay(20);
   }
 
   /* ---------------------------- end sequence ---------------------------- */
