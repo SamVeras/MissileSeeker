@@ -1,4 +1,4 @@
-BasedOnStyle: Chromium
+BasedOnStyle: LLVM
 ReflowComments: false
 IndentWidth: 2
 UseTab: Never
@@ -9,4 +9,3 @@ AllowShortFunctionsOnASingleLine: None
 AlignTrailingComments:
   Kind: Always
   OverEmptyLines: 2
-AlignAfterOpenBracket: Align

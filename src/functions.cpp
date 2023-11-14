@@ -2,7 +2,7 @@
 
 #include "functions.h"
 
-void draw_circle(SDL_Renderer* renderer, Point coords, double radius) {
+void draw_circle(SDL_Renderer *renderer, Point coords, double radius) {
   const int diameter = (radius * 2);
 
   int x = radius - 1;
