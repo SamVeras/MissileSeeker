@@ -1,8 +1,7 @@
-#include <SDL2/SDL.h>
-#include <iostream>
-
 #include "entities.h"
 #include "functions.h"
+#include <SDL2/SDL.h>
+#include <iostream>
 
 /* ------------------------------------------------------------------------ */
 /*                              Drawable class                              */
@@ -48,7 +47,7 @@ void missile::track() {
 
 void missile::update() {
   this->track();
-  if (get_distance(this->position, *target_position) < 50) {
+  if (get_distance(this->position, *target_position) < 25) {
     this->explode();
   };
   this->velocity += this->acceleration;
@@ -63,9 +62,8 @@ void missile::draw() {
 };
 
 void missile::explode() {
-  draw_circle(this->renderer, this->position, 20);
-  draw_circle(this->renderer, this->position, 30);
-  draw_circle(this->renderer, this->position, 40);
+  draw_circle(this->renderer, this->position, 60);
+  delete this;
 }
 
 /* -------------------------------------------------------------------------- */

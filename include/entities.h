@@ -1,8 +1,7 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-
 #include "structures.h"
+#include <SDL2/SDL.h>
 
 class drawable {
 public:
@@ -22,7 +21,7 @@ public:
   void draw() override;
 };
 
-class missile : public movable {
+class missile final : public movable {
 public:
   double max_speed{};
   double max_force{};
@@ -37,7 +36,7 @@ public:
   void explode();
 };
 
-class balloon : public movable {
+class balloon final : public movable {
 public:
   int size{25};
 

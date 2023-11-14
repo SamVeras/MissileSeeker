@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <memory>
 #include <vector>
 
 #include "entities.h"
@@ -23,18 +24,24 @@ int main() {
 
   /* ---------------------------- declarations ---------------------------- */
   bool exit = false;
-  balloon b1;
-  b1.set(render, {600, 500}, {0, -3}, {});
 
-  missile m1;
-  m1.set(render, {100, 100}, {}, {}, 6, 3, b1.position);
+  Point mouse_pos{(double)*currentMouseX, (double)*currentMouseY};
 
-  // std::vector<drawable> objects;
-  // objects.push_back(m1);
+  balloon *b1 = new balloon;
+  b1->set(render, {600, 500}, {0, -3}, {});
+
+  missile *m1 = new missile;
+  m1->set(render, {100, 100}, {}, {}, 6, 0.1, mouse_pos);
+
+  std::vector<drawable *> draw_list;
+  draw_list.push_back(m1);
+  draw_list.push_back(b1);
 
   while (!exit) {
-    /* --------------------------- event polling -------------------------- */
     SDL_GetMouseState(currentMouseX, currentMouseY);
+    mouse_pos.x = (double)*currentMouseX;
+    mouse_pos.y = (double)*currentMouseY;
+    /* --------------------------- event polling -------------------------- */
 
     while (SDL_PollEvent(&event)) {
       switch (event.type) {
@@ -55,10 +62,14 @@ int main() {
     SDL_RenderClear(render);
     // draw_circle(render, {WINDOW_W / 2, WINDOW_H / 2}, 90);
     SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
-    m1.update();
-    m1.draw();
-    b1.update();
-    b1.draw();
+
+    for (auto &d : draw_list) {
+      d->update();
+      d->draw();
+    };
+
+    // b1.update();
+    // b1.draw();
     SDL_RenderPresent(render);
     SDL_Delay(20);
   }
