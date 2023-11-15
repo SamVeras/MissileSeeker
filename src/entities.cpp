@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include "functions.h"
+#include "global.h"
 
 /* ------------------------------------------------------------------------ */
 /*                              Drawable class                              */
@@ -19,6 +20,7 @@ movable::movable(SDL_Renderer* ren, Point pos, Point vel, Point acc)
     : drawable{ren, pos}, velocity(vel), acceleration(acc){};
 
 void movable::update() {
+  this->acceleration += global::gravity_acceleration;
   this->velocity += this->acceleration;
   this->position += this->velocity;
   this->acceleration = {0.0, 0.0};
@@ -59,6 +61,7 @@ void missile::track() {
 };
 
 void missile::update() {
+  this->acceleration += global::gravity_acceleration;
   this->track();
   if (get_distance(this->position, target_position) < 25) {
     this->explode();

@@ -5,6 +5,7 @@
 
 #include "entities.h"
 #include "functions.h"
+#include "global.h"
 #include "structures.h"
 
 #define WINDOW_W 800
@@ -27,16 +28,7 @@ int main() {
 
   Point mouse_pos{(double)*currentMouseX, (double)*currentMouseY};
 
-  // balloon b1;
-  // b1.set(render, {600, 500}, {0, -3}, {});
-  // fazer um negocio q gera missels qnd clica
-  // missile m1;
-  // m1.set(render, {800, 500}, {}, {}, 10, 0.2, b1.position);
-
-  // std::vector<drawable*> draw_list;
-
   std::vector<std::unique_ptr<drawable>> draw_list;
-  // render, {20, 250}, {}, {}, 7, 0.3, mouse_pos
   draw_list.push_back(std::make_unique<missile>(render, Point{50, 250}, Point{},
                                                 Point{}, 10, 0.3, mouse_pos));
   draw_list.push_back(std::make_unique<missile>(render, Point{500, 25}, Point{},
