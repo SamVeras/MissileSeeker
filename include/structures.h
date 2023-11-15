@@ -17,3 +17,8 @@ struct Point {
   void set_magnitude(double mag);
   void limit(double limit);
 };
+
+struct Line {
+  Point p1;
+  Point p2;
+};

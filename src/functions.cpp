@@ -2,6 +2,7 @@
 
 #include "functions.h"
 
+/* ------------------------------------------------------------------------ */
 void draw_circle(SDL_Renderer* renderer, Point coords, double radius) {
   const int diameter = (radius * 2);
 
@@ -36,6 +37,16 @@ void draw_circle(SDL_Renderer* renderer, Point coords, double radius) {
   }
 };
 
+/* ------------------------------------------------------------------------ */
 double get_distance(Point p1, Point p2) {
   return sqrt(pow((p1.x - p2.x), 2) + pow((p1.y - p2.y), 2));
+};
+
+/* ------------------------------------------------------------------------ */
+double degrees_to_radians(double degrees) {
+  return degrees * (M_PI / 180);
+};
+
+double radians_to_degrees(double radians) {
+  return radians * (180 / M_PI);
 };
