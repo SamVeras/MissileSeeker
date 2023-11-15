@@ -7,7 +7,7 @@
 /*                              Drawable class                              */
 /* ------------------------------------------------------------------------ */
 drawable::drawable(SDL_Renderer* ren, Point pos)
-    : renderer(ren), position(pos), kill_this(false){};
+    : renderer(ren), kill_this(false), position(pos){};
 
 void drawable::update(){};
 void drawable::draw(){};
@@ -42,13 +42,13 @@ missile::missile(SDL_Renderer* ren,
                  Point pos,
                  Point vel,
                  Point acc,
-                 double m_spd,
-                 double m_frc,
+                 double max_s,
+                 double max_f,
                  const Point& t_pos)
     : movable{ren, pos, vel, acc},
-      max_speed(m_spd),
-      max_force(m_frc),
-      target_position(t_pos){};
+      target_position(t_pos),
+      max_speed(max_s),
+      max_force(max_f){};
 
 void missile::track() {
   Point desired_velocity{target_position - this->position};
@@ -69,9 +69,11 @@ void missile::update() {
 };
 
 void missile::draw() {
-  double head_x = position.x + velocity.x * 6;
-  double head_y = position.y + velocity.y * 6;
-  SDL_RenderDrawLine(this->renderer, position.x, position.y, head_x, head_y);
+  Point copy_vel = this->velocity;
+  copy_vel.set_magnitude(18);
+  Point head = this->position + copy_vel;
+  SDL_RenderDrawLine(this->renderer, this->position.x, this->position.y, head.x,
+                     head.y);
 };
 
 void missile::explode() {
