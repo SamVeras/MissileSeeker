@@ -22,7 +22,7 @@ SOURCES := $(wildcard $(SRCDIR)/*.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 
 # Nome da aplicação
-TARGET := template
+TARGET := seeker
 
 
 # Principal
