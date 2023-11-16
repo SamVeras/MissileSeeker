@@ -22,6 +22,7 @@ class ray : public drawable {
    double angle;
    double length{5000};
    Point end_point;
+   void check_collision();
 
   public:
    void update() override;

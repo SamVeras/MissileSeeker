@@ -97,7 +97,7 @@ int main() {
       };
 
       SDL_RenderPresent(render);
-      SDL_Delay(20);
+      SDL_Delay(15);
    }
 
    /* ---------------------------- end sequence ---------------------------- */
