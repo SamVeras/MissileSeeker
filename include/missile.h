@@ -1,7 +1,7 @@
 #pragma once
 #include "movable.h"
 
-class missile final : public movable {
+class Missile final : public Movable {
   private:
    const Vetor& target_position;
 
@@ -15,7 +15,7 @@ class missile final : public movable {
    void update() override final;
    void draw() override final;
 
-   missile(
+   Missile(
        SDL_Renderer* ren,
        Vetor pos,
        Vetor vel,

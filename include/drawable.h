@@ -2,7 +2,7 @@
 #include <SDL2/SDL.h>
 #include "vetor.h"
 
-class drawable {
+class Drawable {
   protected:
    SDL_Renderer* renderer;
    Vetor position;
@@ -13,5 +13,5 @@ class drawable {
    virtual void update();
    virtual void draw();
 
-   drawable(SDL_Renderer* ren, Vetor pos);
+   Drawable(SDL_Renderer* ren, Vetor pos);
 };

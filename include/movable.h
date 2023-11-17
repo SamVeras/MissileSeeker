@@ -1,7 +1,7 @@
 #pragma once
 #include "drawable.h"
 
-class movable : public drawable {
+class Movable : public Drawable {
   public:
    Vetor velocity;
    Vetor acceleration;
@@ -9,5 +9,5 @@ class movable : public drawable {
    void update() override;
    void draw() override;
 
-   movable(SDL_Renderer* ren, Vetor pos, Vetor vel, Vetor acc);
+   Movable(SDL_Renderer* ren, Vetor pos, Vetor vel, Vetor acc);
 };

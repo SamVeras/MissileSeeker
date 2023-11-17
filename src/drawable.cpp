@@ -1,8 +1,8 @@
 #include "drawable.h"
 
-drawable::drawable(SDL_Renderer* ren, Vetor pos)
+Drawable::Drawable(SDL_Renderer* ren, Vetor pos)
     : renderer(ren), position(pos), kill_this(false){};
 
-void drawable::update(){};
+void Drawable::update(){};
 
-void drawable::draw(){};
+void Drawable::draw(){};

@@ -1,7 +1,7 @@
 #pragma once
 #include "drawable.h"
 
-class ray : public drawable {
+class Ray : public Drawable {
   protected:
    Vetor direction;
    double length{5000};
@@ -11,5 +11,5 @@ class ray : public drawable {
    void update() override;
    void draw() override;
 
-   ray(SDL_Renderer* ren, Vetor pos, Vetor dir);
+   Ray(SDL_Renderer* ren, Vetor pos, Vetor dir);
 };

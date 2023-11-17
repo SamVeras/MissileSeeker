@@ -34,18 +34,18 @@ int main() {
 
    bool exit = false;
    Vetor mouse_pos{(double)*currentMouseX, (double)*currentMouseY};
-   std::vector<std::unique_ptr<drawable>> draw_list;
+   std::vector<std::unique_ptr<Drawable>> draw_list;
 
-   draw_list.push_back(std::make_unique<missile>(
+   draw_list.push_back(std::make_unique<Missile>(
        render, Vetor{50, 250}, Vetor{}, Vetor{}, 10, 0.3, Vetor{400, 300}
    ));
-   draw_list.push_back(std::make_unique<missile>(
+   draw_list.push_back(std::make_unique<Missile>(
        render, Vetor{500, 25}, Vetor{}, Vetor{}, 10, 0.3, mouse_pos
    ));
-   draw_list.push_back(std::make_unique<missile>(
+   draw_list.push_back(std::make_unique<Missile>(
        render, Vetor{70, 150}, Vetor{}, Vetor{}, 10, 0.3, mouse_pos
    ));
-   draw_list.push_back(std::make_unique<mouse_laser>(
+   draw_list.push_back(std::make_unique<MouseLaser>(
        render, Vetor{WINDOW_W / 2, WINDOW_H / 2}, mouse_pos
    ));
 
