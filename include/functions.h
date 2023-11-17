@@ -1,9 +1,8 @@
 #pragma once
-
 #include <SDL2/SDL.h>
-#include "structures.h"
+#include "vetor.h"
 
-void draw_circle(SDL_Renderer* renderer, Point coords, double radius);
-double get_distance(Point p1, Point p2);
-double degrees_to_radians(double degrees);
-double radians_to_degrees(double radians);
+void draw_circle(SDL_Renderer* renderer, Vetor coords, double radius);
+double distance(Vetor p1, Vetor p2);
+double to_radians(double degrees);
+double to_degrees(double radians);

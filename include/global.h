@@ -1,6 +1,7 @@
 #pragma once
-#include "structures.h"
+
+#include "vetor.h"
 
 namespace global {
-extern const Point gravity_acceleration;
+extern const Vetor gravity_acceleration;
 }

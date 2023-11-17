@@ -3,10 +3,10 @@
 #include <memory>
 #include <vector>
 
-#include "entities.h"
 #include "functions.h"
-#include "global.h"
-#include "structures.h"
+#include "missile.h"
+#include "mouse_laser.h"
+#include "vetor.h"
 
 #define WINDOW_W 800
 #define WINDOW_H 600
@@ -33,24 +33,21 @@ int main() {
    /* ---------------------------- declarations ---------------------------- */
 
    bool exit = false;
-   Point mouse_pos{(double)*currentMouseX, (double)*currentMouseY};
+   Vetor mouse_pos{(double)*currentMouseX, (double)*currentMouseY};
    std::vector<std::unique_ptr<drawable>> draw_list;
 
-   draw_list.push_back(std::make_unique<balloon>(
-       render, Point{400, 300}, Point{0, -4}, Point{0, -3}
+   draw_list.push_back(std::make_unique<missile>(
+       render, Vetor{50, 250}, Vetor{}, Vetor{}, 10, 0.3, Vetor{400, 300}
    ));
    draw_list.push_back(std::make_unique<missile>(
-       render, Point{50, 250}, Point{}, Point{}, 10, 0.3, Point{400, 300}
+       render, Vetor{500, 25}, Vetor{}, Vetor{}, 10, 0.3, mouse_pos
    ));
    draw_list.push_back(std::make_unique<missile>(
-       render, Point{500, 25}, Point{}, Point{}, 10, 0.3, mouse_pos
+       render, Vetor{70, 150}, Vetor{}, Vetor{}, 10, 0.3, mouse_pos
    ));
-   draw_list.push_back(std::make_unique<missile>(
-       render, Point{70, 150}, Point{}, Point{}, 10, 0.3, mouse_pos
+   draw_list.push_back(std::make_unique<mouse_laser>(
+       render, Vetor{WINDOW_W / 2, WINDOW_H / 2}, mouse_pos
    ));
-   draw_list.push_back(
-       (std::make_unique<mouse_laser>(render, Point{400, 300}, mouse_pos))
-   );
 
    while (!exit) {
       SDL_GetMouseState(currentMouseX, currentMouseY);
