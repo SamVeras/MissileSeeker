@@ -1,39 +1,77 @@
 #include <cmath>
 
+#include "SDL_wrappers.h"
 #include "functions.h"
 
-void draw_circle(SDL_Renderer* renderer, Vetor coords, double radius) {
-   const int diameter = (radius * 2);
+void draw_circle(SDL_Renderer* ren, Vetor center, double radius) {
+   Vetor coord = {0, radius};
+   int decision = 3 - 2 * radius;
 
-   int x = radius - 1;
-   int y = 0;
-   int tx = 1;
-   int ty = 1;
-   int error = tx - diameter;
+   while (coord.x <= coord.y) {
+      int x = coord.x;
+      int y = coord.y;
 
-   while (x >= y) {
-      // Each renders an octant of the circle
-      SDL_RenderDrawPoint(renderer, coords.x + x, coords.y + y);
-      SDL_RenderDrawPoint(renderer, coords.x + x, coords.y - y);
-      SDL_RenderDrawPoint(renderer, coords.x - x, coords.y + y);
-      SDL_RenderDrawPoint(renderer, coords.x - x, coords.y - y);
-      SDL_RenderDrawPoint(renderer, coords.x + y, coords.y - x);
-      SDL_RenderDrawPoint(renderer, coords.x + y, coords.y + x);
-      SDL_RenderDrawPoint(renderer, coords.x - y, coords.y - x);
-      SDL_RenderDrawPoint(renderer, coords.x - y, coords.y + x);
+      Vetor octant1 = {center.x + x, center.y + y};
+      Vetor octant2 = {center.x - x, center.y + y};
+      Vetor octant3 = {center.x - y, center.y + x};
+      Vetor octant4 = {center.x + y, center.y + x};
 
-      if (error <= 0) {
-         ++y;
-         error += ty;
-         ty += 2;
-      }
+      Vetor octant5 = {center.x + x, center.y - y};
+      Vetor octant6 = {center.x - x, center.y - y};
+      Vetor octant7 = {center.x - y, center.y - x};
+      Vetor octant8 = {center.x + y, center.y - x};
 
-      if (error > 0) {
-         --x;
-         tx += 2;
-         error += (tx - diameter);
-      }
-   }
+      draw_point(ren, octant1);
+      draw_point(ren, octant2);
+      draw_point(ren, octant3);
+      draw_point(ren, octant4);
+
+      draw_point(ren, octant5);
+      draw_point(ren, octant6);
+      draw_point(ren, octant7);
+      draw_point(ren, octant8);
+
+      if (decision < 0) {
+         coord += Vetor{1, 0};
+         decision += 4 * coord.x + 6;
+      } else {
+         coord += Vetor{1, -1};
+         decision += 4 * (coord.x - coord.y) + 10;
+      };
+   };
+};
+
+void draw_filled_circle(SDL_Renderer* ren, Vetor center, double radius) {
+   Vetor coord = {0, radius};
+   int decision = 3 - 2 * radius;
+
+   while (coord.x <= coord.y) {
+      int x = coord.x;
+      int y = coord.y;
+
+      Vetor octant1 = {center.x + x, center.y + y};
+      Vetor octant2 = {center.x - x, center.y + y};
+      Vetor octant3 = {center.x - y, center.y + x};
+      Vetor octant4 = {center.x + y, center.y + x};
+
+      Vetor octant5 = {center.x + x, center.y - y};
+      Vetor octant6 = {center.x - x, center.y - y};
+      Vetor octant7 = {center.x - y, center.y - x};
+      Vetor octant8 = {center.x + y, center.y - x};
+
+      draw_line(ren, octant1, octant5);
+      draw_line(ren, octant2, octant6);
+      draw_line(ren, octant3, octant7);
+      draw_line(ren, octant4, octant8);
+
+      if (decision < 0) {
+         coord += Vetor{1, 0};
+         decision += 4 * coord.x + 6;
+      } else {
+         coord += Vetor{1, -1};
+         decision += 4 * (coord.x - coord.y) + 10;
+      };
+   };
 };
 
 double distance(Vetor p1, Vetor p2) {
