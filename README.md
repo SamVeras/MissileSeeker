@@ -15,4 +15,5 @@
 1. Ray casting (para o laser ter colisão e guiar os misseis)
 2. Método para intersecção linha-círculo (meteoros)
 3. Uma maneira mais sana de popular a lista de objetos a serem desenhados
-4. Fazer o jogo em si.
+4. Fazer com que os misseis poçam perder momento ao invés de ter propulsão infinita.
+5. Fazer o jogo em si.
