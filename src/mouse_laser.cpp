@@ -8,7 +8,6 @@ mouse_laser::mouse_laser(SDL_Renderer* ren, Vetor pos, Vetor const& mouse_pos)
 
 void mouse_laser::update() {
    this->direction = {mouse_ref.x, mouse_ref.y};
-   Vetor N = (this->position - this->direction).normalized();
-   N *= -1;
+   Vetor N = (this->position - this->direction).normalized() * -1;
    this->end_point = N * 1000;
 }
