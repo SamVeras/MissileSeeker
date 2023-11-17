@@ -24,7 +24,6 @@ void missile::track() {
 };
 
 void missile::update() {
-   // this->velocity += global::gravity_acceleration;
    this->track();
    if (distance(this->position, target_position) < 25) {
       this->explode();

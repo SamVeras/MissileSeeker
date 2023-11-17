@@ -4,7 +4,6 @@ movable::movable(SDL_Renderer* ren, Vetor pos, Vetor vel, Vetor acc)
     : drawable{ren, pos}, velocity(vel), acceleration(acc){};
 
 void movable::update() {
-   // this->velocity += global::gravity_acceleration;
    this->velocity += this->acceleration;
    this->position += this->velocity;
    this->acceleration = {0.0, 0.0};
