@@ -12,8 +12,11 @@
 </figure>
 
 ## To-Do:
-1. Ray casting (para o laser ter colisão e guiar os misseis)
-2. Método para intersecção linha-círculo (meteoros)
-3. Uma maneira mais sana de popular a lista de objetos a serem desenhados
-4. Fazer com que os misseis poçam perder momento ao invés de ter propulsão infinita.
-5. Fazer o jogo em si.
+1. ~Ray casting (para o laser ter colisão e guiar os misseis)~
+2. ~Método para intersecção linha-círculo (meteoros)~
+3. ~Uma maneira mais sana de popular a lista de objetos a serem desenhados~ (Parcialmente?)
+4. Fazer com que os misseis percam momento ao invés de ter propulsão infinita.
+5. Explosões, comportamentos e loop principal do jogo.
+6. Terreno e estruturas e outras "frescuras".
+7. Efeitos visuais?
+8. Efeitos sonoros? Música?
