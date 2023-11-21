@@ -1,27 +1,18 @@
 #pragma once
-#include "movable.h"
+#include "mobile.h"
 
-class Missile final : public Movable {
-  private:
-   const Vetor& target_position;
+class Missile : public Mobile {
+ private:
+  Vetor target_position;
+  double max_speed = 0.0;
+  double max_force = 0.0;
 
-   void explode();
-   void track();
+  void explode();
+  void track_target();
 
-  public:
-   double max_speed{0.0};
-   double max_force{0.0};
-
-   void update() override final;
-   void draw() override final;
-
-   Missile(
-       SDL_Renderer* ren,
-       Vetor pos,
-       Vetor vel,
-       Vetor acc,
-       double m_spd,
-       double m_frc,
-       const Vetor& t_pos
-   );
+ public:
+  void update() override;
+  void draw(SDL_Renderer* render) const override;
+  void change_target(Vetor new_target_position);
+  Missile(Vetor pos, Vetor vel, Vetor acc, double m_spd, double m_frc);
 };

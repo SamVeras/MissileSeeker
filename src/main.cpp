@@ -3,104 +3,114 @@
 #include <memory>
 #include <vector>
 
+#include "SDL_wrappers.h"
 #include "functions.h"
+#include "meteor.h"
 #include "missile.h"
-#include "mouse_laser.h"
-#include "vetor.h"
-
-#define WINDOW_W 800
-#define WINDOW_H 600
-
-int* currentMouseX = new int;
-int* currentMouseY = new int;
+#include "ray.h"
 
 int main() {
-   using std::cout, std::endl, std::cerr;
+  using std::cout, std::endl, std::cerr;
+  /* ------------------------- SDL2 Inicialização ------------------------ */
 
-   /* ------------------------- SDL initialization ------------------------- */
+  SDL_Init(SDL_INIT_VIDEO);
+  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
-   SDL_Init(SDL_INIT_VIDEO);
+  SDL_Window* window = SDL_CreateWindow("RAYCAST", 100, 100, global::WINDOW_W,
+                                        global::WINDOW_H, SDL_WINDOW_OPENGL);
 
-   SDL_Window* window = SDL_CreateWindow(
-       "seeker", 100, 100, WINDOW_W, WINDOW_H, SDL_WINDOW_SHOWN
-   );
+  SDL_Renderer* render =
+      SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-   SDL_Renderer* render =
-       SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  SDL_Event event;
 
-   SDL_Event event;
+  /* ---------------------------- Declarations --------------------------- */
+  bool exit = false;
 
-   /* ---------------------------- declarations ---------------------------- */
+  MeteorManager metman;
 
-   bool exit = false;
-   Vetor mouse_pos{(double)*currentMouseX, (double)*currentMouseY};
-   std::vector<std::unique_ptr<Drawable>> draw_list;
+  // for (unsigned int i = 0; i < 50; i++) {
+  //   double rvy = 20 / (double)biased_randint(10, 20);
+  //   double rvx = 1 / (double)biased_randint(-5, 5);
+  //   double rx = biased_randint(-350, 350);
+  //   double ry = biased_randint(300, 400);
+  //   int r = biased_randint(5, 25);
+  //   metman.create_meteor({rx, ry}, {rvx, -rvy}, {}, r);
+  // }
 
-   draw_list.push_back(std::make_unique<Missile>(
-       render, Vetor{50, 250}, Vetor{}, Vetor{}, 10, 0.3, Vetor{400, 300}
-   ));
-   draw_list.push_back(std::make_unique<Missile>(
-       render, Vetor{500, 25}, Vetor{}, Vetor{}, 10, 0.3, mouse_pos
-   ));
-   draw_list.push_back(std::make_unique<Missile>(
-       render, Vetor{70, 150}, Vetor{}, Vetor{}, 10, 0.3, mouse_pos
-   ));
-   draw_list.push_back(std::make_unique<MouseLaser>(
-       render, Vetor{WINDOW_W / 2, WINDOW_H / 2}, mouse_pos
-   ));
+  metman.create_meteor({-200, 300}, {0, -1}, {0, 0}, 34);
+  metman.create_meteor({200, 300}, {0, -1.3}, {0, 0}, 13);
+  metman.create_meteor({300, 300}, {0, -0.9}, {0, 0}, 22);
 
-   while (!exit) {
-      SDL_GetMouseState(currentMouseX, currentMouseY);
-      mouse_pos.x = (double)*currentMouseX;
-      mouse_pos.y = (double)*currentMouseY;
+  std::unique_ptr<Ray> ray1 = std::make_unique<Ray>(Vetor{0, 0}, Vetor{1, 1});
+  std::unique_ptr<Missile> mis1 =
+      std::make_unique<Missile>(Vetor{300, 300}, Vetor{}, Vetor{}, 2, 0.1);
 
-      /* --------------------------- event polling -------------------------- */
+  int m_x;
+  int m_y;
+  Vetor current_mouse_position;
 
-      while (SDL_PollEvent(&event)) {
-         switch (event.type) {
-            case SDL_QUIT: {
-               exit = true;
-            } break;
-            case SDL_KEYDOWN: {
-               if (event.key.keysym.sym == SDLK_q)
-                  exit = true;
-               // if (event.key.keysym.sym == SDLK_d)
-               //   *laser_angle -= 0.05;
-               // if (event.key.keysym.sym == SDLK_a)
-               //   *laser_angle += 0.05;
-            } break;
-         }
+  while (!exit) {
+    SDL_GetMouseState(&m_x, &m_y);
+    current_mouse_position =
+        Vetor{(double)m_x, double(m_y)} - global::true_center;
+    current_mouse_position.y *= -1;
+    /* ----------------------- SDL2 Event Polling ----------------------- */
+    while (SDL_PollEvent(&event)) {
+      switch (event.type) {
+        case SDL_QUIT: {
+          exit = true;
+        } break;
+        case SDL_KEYDOWN: {
+          if (event.key.keysym.sym == SDLK_q)
+            exit = true;
+        } break;
       }
+    }
 
-      /* ------------------------------- loop ------------------------------- */
+    SDL_SetRenderDrawColor(render, 255, 255, 255, 255);  // white
+    SDL_RenderClear(render);                             // background
 
-      SDL_SetRenderDrawColor(render, 255, 255, 255, 255);
-      SDL_RenderClear(render);
-      SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(render, 220, 220, 220, 255);  // grayish
+    draw_grid(render, 15, {});
 
-      draw_circle(render, mouse_pos, 10);
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 255);        // black
+    draw_cartesian_plane(render, {});
 
-      for (auto t = draw_list.begin(); t != draw_list.end();) {
-         if ((*t)->check_death()) {
-            t = draw_list.erase(t);
-         } else {
-            t++;
-         }
+    /* --------------------------- draw meteors --------------------------- */
+    ray1->change_direction(current_mouse_position);
+    for (std::unique_ptr<Meteor>& meteor : metman.return_list()) {
+      meteor->update();
+      meteor->draw(render);
+      if (ray1->update(*meteor)) {
+        mis1->change_target(ray1->get_point());
       }
+    }
 
-      for (auto& d : draw_list) {
-         d->update();
-         d->draw();
-      };
+    // if (ray1->update(*meteor))
+    //   meteor->mark_for_destroy();
 
-      SDL_RenderPresent(render);
-      SDL_Delay(15);
-   }
+    // for (std::unique_ptr<Meteor>& meteor : metman.return_list()) {
+    //   if (meteor->check_destroy()) {
+    //     metman.destroy_meteor(meteor);
+    //     break;
+    //   }
+    // };
 
-   /* ---------------------------- end sequence ---------------------------- */
+    mis1->update();
+    mis1->draw(render);
 
-   SDL_DestroyRenderer(render);
-   SDL_DestroyWindow(window);
-   SDL_Quit();
-   return 0;
+    SDL_SetRenderDrawColor(render, 255, 0, 0, 255);  // black
+
+    ray1->draw(render);
+
+    SDL_RenderPresent(render);
+    SDL_Delay(15);  // 15ms
+  }
+  /* ---------------------------- End Sequence --------------------------- */
+
+  SDL_DestroyRenderer(render);
+  SDL_DestroyWindow(window);
+  SDL_Quit();
+  return 0;
 }

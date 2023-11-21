@@ -1,50 +1,32 @@
 #include "missile.h"
-#include "functions.h"
 
-Missile::Missile(
-    SDL_Renderer* ren,
-    Vetor pos,
-    Vetor vel,
-    Vetor acc,
-    double max_s,
-    double max_f,
-    const Vetor& t_pos
-)
-    : Movable{ren, pos, vel, acc},
-      target_position(t_pos),
-      max_speed(max_s),
-      max_force(max_f){};
-
-void Missile::track() {
-   Vetor tracking_velocity{target_position - this->position};
-   tracking_velocity.set_magnitude(this->max_speed);
-   tracking_velocity -= this->velocity;
-   tracking_velocity.limit(this->max_force);
-   this->acceleration += tracking_velocity;
+void Missile::track_target() {
+  Vetor tracking_vector{target_position - this->position};
+  tracking_vector.set_magnitude(this->max_speed);
+  tracking_vector -= this->velocity;
+  tracking_vector.limit(this->max_force);
+  this->acceleration += tracking_vector;
 };
 
 void Missile::update() {
-   this->track();
-   if (distance(this->position, target_position) < 25) {
-      this->explode();
-   };
-   this->velocity += this->acceleration;
-   this->velocity.limit(max_speed);
-   this->position += this->velocity;
-   this->acceleration = {0.0, 0.0};
+  this->track_target();
+  this->velocity += this->acceleration;
+  this->velocity.limit(max_speed);
+  this->position += this->velocity;
+  this->acceleration = {0.0, 0.0};
 };
 
-void Missile::draw() {
-   Vetor copy_vel = this->velocity;
-   copy_vel.set_magnitude(18);
-   Vetor head = this->position + copy_vel;
-   SDL_RenderDrawLine(
-       this->renderer, this->position.x, this->position.y, head.x, head.y
-   );
+void Missile::change_target(Vetor new_target_position) {
+  this->target_position = new_target_position;
 };
 
-void Missile::explode() {
-   draw_circle(this->renderer, this->position, 60);
-   SDL_Delay(100);
-   this->kill_this = true;
+void Missile::draw(SDL_Renderer* render) const {
+  draw_line(render, this->position, (this->position + this->velocity * -4));
+  draw_line(render, this->position + Vetor{0, 1},
+            (this->position + this->velocity * -4) + Vetor{0, 1});
+  draw_line(render, this->position + Vetor{1, 0},
+            (this->position + this->velocity * -4) + Vetor{1, 0});
 };
+
+Missile::Missile(Vetor pos, Vetor vel, Vetor acc, double m_spd, double m_frc)
+    : Mobile::Mobile(pos, vel, acc), max_speed(m_spd), max_force(m_frc){};
