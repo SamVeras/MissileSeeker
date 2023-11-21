@@ -2,13 +2,14 @@ CXX := g++
 CXXFLAGS := -g -Wall -W -Werror $(shell pkg-config sdl2 --cflags)
 LIBS := $(shell pkg-config sdl2 --libs)
 
-INCLUDE := -I include
-
 # Estrutura de diretórios
 SRCDIR := src
 BINDIR := bin
 BUILDDIR := build
 TESTDIR := test
+INCDIR := include
+
+INCLUDE := -I $(INCDIR)
 
 # Extensão dos arquivos de fonte
 SRCEXT := cpp
@@ -31,7 +32,7 @@ $(BINDIR)/$(TARGET): $(OBJECTS)
 	@echo "$(GC)Executable built successfully -> $@ $(NC)"
 
 # Objetos
-$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
+$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT) $(wildcard $(INCDIR)/*.h)
 	@$(CXX) $(CXXFLAGS) $(INCLUDE) -c -o $@ $<
 	@echo "$(CC)Object built -> $@$(NC)"
 
