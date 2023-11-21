@@ -4,14 +4,14 @@ int draw_line(SDL_Renderer* renderer, Vetor A, Vetor B) {
   // imagine (0,0) -> (350, 350)
   // imagine (200, 200) -> (350 + 200, 350 - 200)
   A.y *= -1, B.y *= -1;
-  A += global::true_center, B += global::true_center;
+  A += DEFINED::WIN_CENTER, B += DEFINED::WIN_CENTER;
 
   return SDL_RenderDrawLine(renderer, A.x, A.y, B.x, B.y);
 };
 
 int draw_point(SDL_Renderer* renderer, Vetor P) {
   P.y *= -1;
-  P += global::true_center;
+  P += DEFINED::WIN_CENTER;
   return SDL_RenderDrawPoint(renderer, P.x, P.y);
 };
 
@@ -89,7 +89,7 @@ void draw_filled_circle(SDL_Renderer* ren, Vetor center, double radius) {
 void draw_grid(SDL_Renderer* ren, int step, Vetor offset) {
   if (step <= 0)
     return;
-  Vetor half_screen = global::true_center + offset;
+  Vetor half_screen = DEFINED::WIN_CENTER + offset;
 
   for (double x = 0; x <= half_screen.x; x += step) {
     draw_line(ren, {x, half_screen.y}, {x, -half_screen.y});
@@ -103,7 +103,7 @@ void draw_grid(SDL_Renderer* ren, int step, Vetor offset) {
 };
 
 void draw_cartesian_plane(SDL_Renderer* ren, Vetor offset) {
-  Vetor half_screen = global::true_center + offset;
+  Vetor half_screen = DEFINED::WIN_CENTER + offset;
 
   draw_line(ren, {-half_screen.x, 0}, {half_screen.x, 0});
   draw_line(ren, {0, -half_screen.y}, {0, half_screen.y});

@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "SDL_wrappers.h"
+#include "defined.h"
 #include "functions.h"
 #include "meteor.h"
 #include "missile.h"
@@ -14,10 +15,11 @@ int main() {
   /* ------------------------- SDL2 Inicialização ------------------------ */
 
   SDL_Init(SDL_INIT_VIDEO);
+
   SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
-  SDL_Window* window = SDL_CreateWindow("RAYCAST", 100, 100, global::WINDOW_W,
-                                        global::WINDOW_H, SDL_WINDOW_OPENGL);
+  SDL_Window* window = SDL_CreateWindow("RAYCAST", 100, 100, DEFINED::WIN_W,
+                                        DEFINED::WIN_H, SDL_WINDOW_OPENGL);
 
   SDL_Renderer* render =
       SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -44,7 +46,7 @@ int main() {
 
   std::unique_ptr<Ray> ray1 = std::make_unique<Ray>(Vetor{0, 0}, Vetor{1, 1});
   std::unique_ptr<Missile> mis1 =
-      std::make_unique<Missile>(Vetor{300, 300}, Vetor{}, Vetor{}, 2, 0.1);
+      std::make_unique<Missile>(Vetor{300, 300}, Vetor{}, Vetor{}, 2, 0.1, 2);
 
   int m_x;
   int m_y;
@@ -53,7 +55,7 @@ int main() {
   while (!exit) {
     SDL_GetMouseState(&m_x, &m_y);
     current_mouse_position =
-        Vetor{(double)m_x, double(m_y)} - global::true_center;
+        Vetor{(double)m_x, double(m_y)} - DEFINED::WIN_CENTER;
     current_mouse_position.y *= -1;
     /* ----------------------- SDL2 Event Polling ----------------------- */
     while (SDL_PollEvent(&event)) {
