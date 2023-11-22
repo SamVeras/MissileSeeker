@@ -40,13 +40,13 @@ int main() {
   //   metman.create_meteor({rx, ry}, {rvx, -rvy}, {}, r);
   // }
 
-  metman.create_meteor({-200, 300}, {0, -1}, {0, 0}, 34);
-  metman.create_meteor({200, 300}, {0, -1.3}, {0, 0}, 13);
-  metman.create_meteor({300, 300}, {0, -0.9}, {0, 0}, 22);
+  metman.create_meteor({-200, 300}, {0, -0.1}, {0, 0}, 34);
+  metman.create_meteor({200, 300}, {0, -0.13}, {0, 0}, 13);
+  metman.create_meteor({100, 300}, {0, -0.09}, {0, 0}, 22);
 
   std::unique_ptr<Ray> ray1 = std::make_unique<Ray>(Vetor{0, 0}, Vetor{1, 1});
   std::unique_ptr<Missile> mis1 =
-      std::make_unique<Missile>(Vetor{300, 300}, Vetor{}, Vetor{}, 2, 0.1, 2);
+      std::make_unique<Missile>(Vetor{300, 300}, Vetor{}, Vetor{}, 2, 0.1);
 
   int m_x;
   int m_y;
@@ -81,6 +81,10 @@ int main() {
 
     /* --------------------------- draw meteors --------------------------- */
     ray1->change_direction(current_mouse_position);
+    SDL_SetRenderDrawColor(render, 0, 0, 200, 200);
+    draw_line(render, mis1->get_position(), mis1->get_target());
+
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 255);  // black
     for (std::unique_ptr<Meteor>& meteor : metman.return_list()) {
       meteor->update();
       meteor->draw(render);

@@ -20,6 +20,10 @@ void Missile::change_target(Vetor new_target_position) {
   this->target_position = new_target_position;
 };
 
+const Vetor& Missile::get_target() const {
+  return this->target_position;
+};
+
 void Missile::draw(SDL_Renderer* render) const {
   draw_line(render, this->position, (this->position + this->velocity * -4));
   draw_line(render, this->position + Vetor{0, 1},

@@ -9,7 +9,7 @@ const double& Meteor::get_radius() const {
 };
 
 void Meteor::draw(SDL_Renderer* render) const {
-  draw_filled_circle(render, this->position, this->radius);
+  draw_circle(render, this->position, this->radius);
 };
 
 void MeteorManager::create_meteor(Vetor p, Vetor v, Vetor a, double r) {

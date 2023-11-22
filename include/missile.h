@@ -14,5 +14,6 @@ class Missile : public Mobile {
   void update() override;
   void draw(SDL_Renderer* render) const override;
   void change_target(Vetor new_target_position);
+  const Vetor& get_target() const;
   Missile(Vetor pos, Vetor vel, Vetor acc, double m_spd, double m_frc);
 };
