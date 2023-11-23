@@ -19,8 +19,8 @@ class Ray {
 
  public:
   void change_direction(Vetor new_dir);
-  void change_position(Vetor new_pos);
   const Vetor& get_point() const;
+  const Vetor& get_start() const;
   bool update(const Meteor& target);
   void draw(SDL_Renderer* render);
 

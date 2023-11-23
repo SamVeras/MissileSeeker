@@ -5,4 +5,4 @@
 double distance(Vetor p1, Vetor p2);
 double to_radians(double degrees);
 double to_degrees(double radians);
-int biased_randint(int min, int max);
+int biased_rand(int min, int max);

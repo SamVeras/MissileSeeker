@@ -8,17 +8,40 @@ const double& Meteor::get_radius() const {
   return this->radius;
 };
 
+void Meteor::update() {
+  this->velocity += this->acceleration;
+  this->position += this->velocity;
+  this->acceleration = {0.0, 0.0};
+  if (this->check_bounds())
+    this->mark_for_destroy();
+};
+
+bool Meteor::check_bounds() {
+  const int leeway = 0;
+  constexpr int max_x = DEFINED::WIN_W + leeway;
+  constexpr int min_x = -DEFINED::WIN_W - leeway;
+  constexpr int max_y = DEFINED::WIN_H + leeway;
+  constexpr int min_y = -DEFINED::WIN_H - leeway;
+
+  return (position.x > max_x || position.y > max_y || position.x < min_x ||
+          position.y < min_y);
+}
+
 void Meteor::draw(SDL_Renderer* render) const {
-  draw_circle(render, this->position, this->radius);
+  draw_filled_circle(render, this->position, this->radius);
 };
 
 void MeteorManager::create_meteor(Vetor p, Vetor v, Vetor a, double r) {
-  this->meteor_list.push_back(std::make_unique<Meteor>(p, v, a, r));
+  std::unique_ptr<Meteor> new_meteor = std::make_unique<Meteor>(p, v, a, r);
+  std::cout << "Created meteor " << new_meteor.get() << std::endl;
+  this->meteor_list.push_back(std::move(new_meteor));
+  // this->meteor_list.push_back(std::make_unique<Meteor>(p, v, a, r));
 };
 
 void MeteorManager::destroy_meteor(std::unique_ptr<Meteor>& meteor) {
   for (auto m = this->meteor_list.begin(); m != this->meteor_list.end(); m++) {
     if (m->get() == meteor.get()) {
+      std::cout << "Destroyed meteor " << meteor.get() << std::endl;
       this->meteor_list.erase(m);
       return;
     }

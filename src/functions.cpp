@@ -14,7 +14,7 @@ double to_degrees(double radians) {
   return radians * (180 / M_PI);
 };
 
-int biased_randint(int min, int max) {
+int biased_rand(int min, int max) {
   if (min > max)
     return 0;
   int r = 0;
