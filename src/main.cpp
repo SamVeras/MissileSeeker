@@ -47,6 +47,7 @@ int main() {
   while (!exit) {
     if (red_death_counter >= 255) {
       exit = true;
+      cout << "Game over." << endl;
       SDL_Delay(600);
       break;
     }
@@ -111,9 +112,11 @@ int main() {
         red_death_counter += 10;
 
       if (mis1->check_explode(meteor) || mis2->check_explode(meteor) ||
-          mis3->check_explode(meteor))
+          mis3->check_explode(meteor)) {
+        draw_circle(render, meteor->get_position(), meteor->get_radius() + 10);
         if (red_death_counter != 0)
           red_death_counter -= 1;
+      }
     }
 
     for (auto& meteor : metman.return_list()) {
