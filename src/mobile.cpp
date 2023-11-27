@@ -10,8 +10,16 @@ void Mobile::mark_for_destroy() {
   this->destroy = true;
 };
 
+void Mobile::mark_out_of_bounds() {
+  this->out_of_bounds = true;
+};
+
 const bool& Mobile::check_destroy() const {
   return this->destroy;
+};
+
+const bool& Mobile::check_bounds() const {
+  return this->out_of_bounds;
 };
 
 const Vetor& Mobile::get_position() const {

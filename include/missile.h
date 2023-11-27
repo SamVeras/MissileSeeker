@@ -13,7 +13,7 @@ class Missile : public Mobile {
   void track_target();
 
  public:
-  void check_explode(std::unique_ptr<Meteor>& objeto);
+  bool check_explode(std::unique_ptr<Meteor>& objeto);
   void update() override;
   void draw(SDL_Renderer* render) const override;
   void change_target(Vetor new_target_position);

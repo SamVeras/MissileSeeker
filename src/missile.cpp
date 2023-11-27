@@ -9,11 +9,13 @@ void Missile::track_target() {
   acceleration += tracking_vector;
 };
 
-void Missile::check_explode(std::unique_ptr<Meteor>& objeto) {
+bool Missile::check_explode(std::unique_ptr<Meteor>& objeto) {
   int coisa = objeto->get_radius() + 30;
   if (distance(this->position, objeto->get_position()) < coisa) {
     objeto->mark_for_destroy();
+    return true;
   }
+  return false;
 };
 
 void Missile::update() {

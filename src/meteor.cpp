@@ -12,20 +12,26 @@ void Meteor::update() {
   this->velocity += this->acceleration;
   this->position += this->velocity;
   this->acceleration = {0.0, 0.0};
-  if (this->check_bounds())
-    this->mark_for_destroy();
+  if (this->check_bottom_screen())
+    this->mark_out_of_bounds();
 };
 
-bool Meteor::check_bounds() {
-  const int leeway = 0;
-  constexpr int max_x = DEFINED::WIN_W + leeway;
-  constexpr int min_x = -DEFINED::WIN_W - leeway;
-  constexpr int max_y = DEFINED::WIN_H + leeway;
-  constexpr int min_y = -DEFINED::WIN_H - leeway;
+// bool Meteor::check_bounds() const {
+//   const int leeway = 0;
+//   constexpr int max_x = DEFINED::WIN_W + leeway;
+//   constexpr int min_x = -DEFINED::WIN_W - leeway;
+//   constexpr int max_y = DEFINED::WIN_H + leeway;
+//   constexpr int min_y = -DEFINED::WIN_H - leeway;
 
-  return (position.x > max_x || position.y > max_y || position.x < min_x ||
-          position.y < min_y);
-}
+//   return (position.x > max_x || position.y > max_y || position.x < min_x ||
+//           position.y < min_y);
+// }
+
+bool Meteor::check_bottom_screen() const {
+  constexpr int bottom = -DEFINED::WIN_H / 2;
+
+  return (position.y < bottom);
+};
 
 void Meteor::draw(SDL_Renderer* render) const {
   draw_filled_circle(render, this->position, this->radius);

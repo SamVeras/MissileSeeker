@@ -8,13 +8,16 @@ class Mobile {
   Vetor position;
   Vetor velocity;
   Vetor acceleration;
-  bool destroy;
+  bool destroy{false};
+  bool out_of_bounds{false};
 
  public:
   void change_position(Vetor new_pos);
   void mark_for_destroy();
+  void mark_out_of_bounds();
   const Vetor& get_position() const;
   const bool& check_destroy() const;
+  const bool& check_bounds() const;
 
   virtual void update();
   virtual void draw(SDL_Renderer* render) const;

@@ -8,7 +8,8 @@ class Meteor : public Mobile {
  protected:
   double radius;
   void explode();
-  bool check_bounds();
+  // bool check_bounds() const;
+  bool check_bottom_screen() const;
 
  public:
   const double& get_radius() const;
