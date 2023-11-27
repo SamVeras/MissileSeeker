@@ -4,6 +4,10 @@ void Ray::change_direction(Vetor new_dir) {
   this->direction = new_dir.normalized();
 };
 
+void Ray::change_position(Vetor new_pos) {
+  this->start += new_pos;
+};
+
 Ray::Ray(Vetor pos, Vetor dir)
     : start(pos), direction(dir), current_length(5000) {
   direction.normalize();

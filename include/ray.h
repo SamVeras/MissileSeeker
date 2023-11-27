@@ -18,6 +18,7 @@ class Ray {
   RayCheck check_collision(const Meteor& target) const;
 
  public:
+  void change_position(Vetor new_pos);
   void change_direction(Vetor new_dir);
   const Vetor& get_point() const;
   const Vetor& get_start() const;

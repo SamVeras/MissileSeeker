@@ -1,4 +1,5 @@
 #include "missile.h"
+#include "functions.h"
 
 void Missile::track_target() {
   Vetor tracking_vector{target_position - position};
@@ -6,6 +7,13 @@ void Missile::track_target() {
   tracking_vector -= velocity;
   tracking_vector.limit(max_force);
   acceleration += tracking_vector;
+};
+
+void Missile::check_explode(std::unique_ptr<Meteor>& objeto) {
+  int coisa = objeto->get_radius() + 30;
+  if (distance(this->position, objeto->get_position()) < coisa) {
+    objeto->mark_for_destroy();
+  }
 };
 
 void Missile::update() {

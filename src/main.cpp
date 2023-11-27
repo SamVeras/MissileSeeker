@@ -46,9 +46,9 @@ int main() {
 
   std::unique_ptr<Ray> ray1 = std::make_unique<Ray>(Vetor{0, 0}, Vetor{1, 1});
   std::unique_ptr<Missile> mis1 =
-      std::make_unique<Missile>(Vetor{300, 300}, Vetor{}, Vetor{}, 10, 0.07);
+      std::make_unique<Missile>(Vetor{300, 300}, Vetor{}, Vetor{}, 10, 0.3);
   std::unique_ptr<Missile> mis2 =
-      std::make_unique<Missile>(Vetor{-300, -300}, Vetor{}, Vetor{}, 5, 0.1);
+      std::make_unique<Missile>(Vetor{-300, -300}, Vetor{}, Vetor{}, 5, 0.5);
 
   int mouse_x;
   int mouse_y;
@@ -89,6 +89,7 @@ int main() {
       double radius{r_r};
       metman.create_meteor(pos, vel, {}, radius);
     }
+
     SDL_SetRenderDrawColor(render, 0, 0, 0, 255);  // black
     // SDL_SetRenderDrawColor(render, 255, 255, 255, 255);  // white
 
@@ -101,7 +102,7 @@ int main() {
 
     SDL_SetRenderDrawColor(render, 255, 255, 255, 255);  // white
     // SDL_SetRenderDrawColor(render, 0, 0, 0, 255);  // black
-    draw_cartesian_plane(render, ray1->get_start());
+    draw_cartesian_plane(render, DEFINED::WIN_CENTER);
 
     for (auto& meteor : metman.return_list()) {
       meteor->update();
@@ -110,6 +111,8 @@ int main() {
         mis1->change_target(ray1->get_point());
         mis2->change_target(ray1->get_point());
       }
+      mis1->check_explode(meteor);
+      mis2->check_explode(meteor);
     }
 
     for (auto& meteor : metman.return_list()) {
