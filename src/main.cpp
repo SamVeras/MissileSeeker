@@ -109,7 +109,7 @@ int main() {
         mis3->change_target(ray1->get_point());
       }
       if (meteor->check_bounds())
-        red_death_counter += 10;
+        red_death_counter += 6;
 
       if (mis1->check_explode(meteor) || mis2->check_explode(meteor) ||
           mis3->check_explode(meteor)) {
