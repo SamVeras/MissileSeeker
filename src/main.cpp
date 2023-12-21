@@ -35,11 +35,11 @@ int main() {
 
   std::unique_ptr<Ray> ray1 = std::make_unique<Ray>(Vetor{0, 0}, Vetor{1, 1});
   std::unique_ptr<Missile> mis1 =
-      std::make_unique<Missile>(Vetor{300, 300}, Vetor{}, Vetor{}, 10, 0.25);
+      std::make_unique<Missile>(Vetor{300, 300}, Vetor{}, Vetor{}, 20, 0.25);
   std::unique_ptr<Missile> mis2 =
-      std::make_unique<Missile>(Vetor{-300, -300}, Vetor{}, Vetor{}, 5, 0.5);
+      std::make_unique<Missile>(Vetor{-300, -300}, Vetor{}, Vetor{}, 10, 0.5);
   std::unique_ptr<Missile> mis3 =
-      std::make_unique<Missile>(Vetor{300, -300}, Vetor{}, Vetor{}, 7.5, 0.375);
+      std::make_unique<Missile>(Vetor{300, -300}, Vetor{}, Vetor{}, 15, 0.375);
 
   unsigned int red_death_counter{};
   int mouse_x{};
