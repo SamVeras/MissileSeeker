@@ -10,6 +10,8 @@
 #include "missile.h"
 #include "ray.h"
 
+enum class SeekerMode { RAY, AUTO };
+
 int main() {
   using std::cout, std::endl, std::cerr;
   /* ------------------------- SDL2 Inicialização ------------------------ */
@@ -44,6 +46,9 @@ int main() {
   int mouse_y{};
   Vetor mouse_position;
 
+  SeekerMode current_seek_mode = SeekerMode::RAY;
+  SeekerMode next_seek_mode = SeekerMode::AUTO;
+
   while (!exit) {
     if (red_death_counter >= 255) {
       exit = true;
@@ -68,6 +73,11 @@ int main() {
         case SDL_KEYDOWN: {
           if (event.key.keysym.sym == SDLK_q)
             exit = true;
+          else if (event.key.keysym.sym == SDLK_t) {
+            SeekerMode aux = next_seek_mode;
+            next_seek_mode = current_seek_mode;
+            current_seek_mode = aux;
+          }
         } break;
       }
     }
@@ -100,10 +110,24 @@ int main() {
     // SDL_SetRenderDrawColor(render, 0, 0, 0, 255);  // black
     draw_cartesian_plane(render, DEFINED::WIN_CENTER);
 
+    if (current_seek_mode == SeekerMode::AUTO) {
+      Vetor lowest_pos;
+      bool first = true;
+      for (auto& meteor : metman.return_list()) {
+        if (first || lowest_pos.y > meteor->get_position().y) {
+          lowest_pos = meteor->get_position();
+        }
+        first = false;
+      }
+      mis1->change_target(lowest_pos);
+      mis2->change_target(lowest_pos);
+      mis3->change_target(lowest_pos);
+    }
+
     for (auto& meteor : metman.return_list()) {
       meteor->update();
       meteor->draw(render);
-      if (ray1->update(*meteor)) {
+      if (current_seek_mode == SeekerMode::RAY && ray1->update(*meteor)) {
         mis1->change_target(ray1->get_point());
         mis2->change_target(ray1->get_point());
         mis3->change_target(ray1->get_point());
